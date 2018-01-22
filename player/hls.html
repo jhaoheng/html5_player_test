@@ -1,0 +1,50 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+
+<body>
+
+
+<div>
+    <p style="padding-left: 100px">http://<input id="host" size="50"> </p>
+    <p style="padding-left: 110px">key : <input id="key" size="50"> </p>
+    <p style="padding-left: 58px">timestamp : <input id="timestamp" size="50"> </p>
+    <p style="padding-left: 270px"> <button onclick="play()">play</button> </p>
+</div>
+
+<video id="video_hlsjs" width=100%></video>
+
+<script type="text/javascript">
+
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
+    function play() {
+        var host = document.getElementById("host").value;
+        var timestamp = document.getElementById("timestamp").value;
+        var key = document.getElementById("key").value;
+        var id = guid();
+        var source = "http://" + host + "/cvr/" + key + "/playback?id=" + id + '&start=' + timestamp;
+        // alert(source);
+        
+        if(Hls.isSupported()) {
+            var video = document.getElementById('video_hlsjs');
+
+            var hls = new Hls();
+            // http://cvr-vteck.gotomythings.com/cvr/vtech:__defaultVhost__:ipcam:stream/playback?id=dem22o&start=1514337003
+            hls.loadSource(source);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED,function() {
+                video.play();
+            });
+        }
+    }
+</script>
+</body>

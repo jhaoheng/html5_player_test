@@ -1,0 +1,13 @@
+version: "3.0"
+services:
+  nginx:
+    image: nginx:latest
+    container_name: cvr-player
+    ports:
+      - 8888:80/tcp
+    volumes:
+      # - ./nginx/conf/:/etc/nginx/conf.d/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./player:/usr/share/nginx/html/player
+    working_dir: /usr/share/nginx/html/player
+    restart: always
