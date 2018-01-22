@@ -5,6 +5,14 @@
 2. browser open : `localhost:8888`
 3. browser open flash to support rtmp live
 
+# troubleshooting
+
+- rtmp 無法播放，請確認 browser support flash
+- hls 無法播放，請確認 m3u8 與 ts 檔案的格式正確，resonse status code should be 200
+- 切記，player 沒有問題，自己驗證過三次，還是忘記上面兩個需求
+
+---
+
 
 # hls playback
 - hls.html
