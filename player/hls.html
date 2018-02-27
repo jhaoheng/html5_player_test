@@ -11,10 +11,13 @@
     <p style="padding-left: 100px">Notice : 在每次播放時,請更新 playid. 讓系統暫存知道與上一次播放的要求不同.</p>
     <p style="padding-left: 100px">Format : http://{host}/{uri}?playid=</p>
     <p style="padding-left: 100px">http://<input id="host" size="150"> </p>
-    <p style="padding-left: 270px"> <button onclick="play()">play</button> </p>
+    <div>
+    <span style="padding-left: 270px"> <button onclick="play()">play</button> 
+    <span style="padding-left: 10px"> <button onclick="stop()">stop</button> 
+    </div>
 </div>
 
-<video id="video_hlsjs" width=500px></video>
+<video id="video_hlsjs" width=100%></video>
 
 <script type="text/javascript">
 
@@ -27,6 +30,8 @@
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 
+    var hls = new Hls();
+    
     function play() {
         var host = document.getElementById("host").value;
         var source = "http://" + host;
@@ -35,13 +40,20 @@
         if(Hls.isSupported()) {
             var video = document.getElementById('video_hlsjs');
 
-            var hls = new Hls();
+            hls.stopLoad()
             hls.loadSource(source);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED,function() {
                 video.play();
             });
         }
+    }
+
+    function stop(){
+        hls.detachMedia()
+        hls.stopLoad()
+        hls.off()
+        hls.destroy()
     }
 </script>
 </body>
